@@ -45,7 +45,7 @@ const VerticalNavHeader = props => {
       {userVerticalNavMenuBranding ? (
         userVerticalNavMenuBranding(props)
       ) : (
-        <Link href='/' passHref>
+        <Link href='/Home' passHref>
           <StyledLink>
             <HeaderTitle variant='h5' sx={{ ml: 3 }} style={{ color: 'purple' }}>
               SwiftMart
