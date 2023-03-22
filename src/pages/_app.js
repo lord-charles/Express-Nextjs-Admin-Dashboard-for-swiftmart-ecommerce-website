@@ -52,9 +52,9 @@ const App = props => {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>Admin</title>
+        <title>SwiftMart || Admin</title>
         <meta name='description' content={`admin dashboard`} />
-        <meta name='keywords' content='Admin' />
+        <meta name='keywords' content='SwiftMart || Admin' />
         <meta name='viewport' content='initial-scale=1, width=device-width' />
       </Head>
 
