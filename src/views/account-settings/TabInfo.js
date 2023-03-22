@@ -71,7 +71,7 @@ const TabInfo = () => {
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
               <InputLabel>Country</InputLabel>
-              <Select label='Country' defaultValue='USA'>
+              <Select label='Country' defaultValue='Kenya'>
                 <MenuItem value='Kenya'>Kenya</MenuItem>
                 <MenuItem value='Tanzania'>Tanzania</MenuItem>
                 <MenuItem value='Uganda'>Uganda</MenuItem>

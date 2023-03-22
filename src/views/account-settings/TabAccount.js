@@ -88,7 +88,7 @@ const TabAccount = () => {
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Username' placeholder='@charles' defaultValue='charles' />
+            <TextField fullWidth label='Username' placeholder='@charles' defaultValue='@charles' />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField fullWidth label='Name' placeholder='charles' defaultValue='charles' />
@@ -123,7 +123,7 @@ const TabAccount = () => {
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Company' placeholder='SwiftMart ltd' defaultValue='ABC Pvt. Ltd.' />
+            <TextField fullWidth label='Company' placeholder='SwiftMart ltd' defaultValue='SwiftMart ltd.' />
           </Grid>
 
           {openAlert ? (
