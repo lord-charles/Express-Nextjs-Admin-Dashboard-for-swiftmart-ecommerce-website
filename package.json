@@ -1,11 +1,10 @@
 {
-  "name": "Admin Dashboard by charles",
+  "name": "swiftmart Admin",
   "description": "Most Powerful & Comprehensive Admin dashboad🚀",
   "license": "MIT",
   "version": "1.0.0",
   "author": {
-    "name": "charles mwaniki",
-    "url": ""
+    "name": "charles mwaniki"
   },
   "private": false,
   "scripts": {
