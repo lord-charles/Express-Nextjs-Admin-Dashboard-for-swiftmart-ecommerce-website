@@ -41,7 +41,7 @@ const TabInfo = () => {
               label='Bio'
               minRows={2}
               placeholder='Bio'
-              defaultValue='The name’s John Deo. I am a tireless seeker of knowledge, occasional purveyor of wisdom and also, coincidentally, a graphic designer. Algolia helps businesses across industries quickly create relevant 😎, scalable 😀, and lightning 😍 fast search and discovery experiences.'
+              defaultValue='My name is charles mwaniki, I am a tireless seeker of knowledge, occasional purveyor of wisdom and also, coincidentally, a graphic designer. Algolia helps businesses across industries quickly create relevant 😎, scalable 😀, and lightning 😍 fast search and discovery experiences.'
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -58,24 +58,24 @@ const TabInfo = () => {
             </DatePickerWrapper>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth type='number' label='Phone' placeholder='(123) 456-7890' />
+            <TextField fullWidth type='number' label='Phone' placeholder='(+254) 740315545' />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               label='Website'
-              placeholder='https://example.com/'
-              defaultValue='https://themeselection.com/'
+              placeholder='https://swiftmart.com/'
+              defaultValue='https://swiftmart.app/'
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
               <InputLabel>Country</InputLabel>
               <Select label='Country' defaultValue='USA'>
-                <MenuItem value='USA'>USA</MenuItem>
-                <MenuItem value='UK'>UK</MenuItem>
-                <MenuItem value='Australia'>Australia</MenuItem>
-                <MenuItem value='Germany'>Germany</MenuItem>
+                <MenuItem value='Kenya'>Kenya</MenuItem>
+                <MenuItem value='Tanzania'>Tanzania</MenuItem>
+                <MenuItem value='Uganda'>Uganda</MenuItem>
+                <MenuItem value='Ethiopia'>Ethiopia</MenuItem>
               </Select>
             </FormControl>
           </Grid>
