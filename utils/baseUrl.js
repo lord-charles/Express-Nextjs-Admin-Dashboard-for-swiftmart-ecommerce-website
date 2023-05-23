@@ -1,1 +1,1 @@
-export const base_url = 'https://ecommerce2023api.onrender.com/'
+export const base_url = 'https://odd-lime-ox-robe.cyclic.app/'

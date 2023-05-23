@@ -9,20 +9,15 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import ClipboardJS from '../Clipboard'
 
-export default function AddBrand3() {
-  // ClipboardJS
-  const [isCopied, setIsCopied] = useState(false)
-  const clipboardRef = useRef(null)
+export default function Flash3() {
+  const [data, setData] = useState({})
 
-  const [coupon, setcoupon] = useState({})
-  const [link, setLink] = useState('')
-
-  const getSinglecoupon = async () => {
+  const getFlashSaleProduct = async () => {
     try {
-      const getcouponIdFromLocalStorage = localStorage.getItem('productId')
+      const getFlashIdFromLocalStorage = localStorage.getItem('productId')
         ? JSON.parse(localStorage.getItem('productId'))
         : null
-      const couponId = getcouponIdFromLocalStorage.state.productId
+      const id = getFlashIdFromLocalStorage.state.productId
 
       const api = axios.create({
         baseURL: base_url
@@ -30,11 +25,12 @@ export default function AddBrand3() {
 
       const myPromise = new Promise(async (resolve, reject) => {
         try {
-          const response = await api.get(`coupon/${couponId}/`)
+          const response = await api.get(`flashSale/${id}/`)
+          console.log(response)
           if (response.status === 200) {
             resolve()
           }
-          setcoupon(response.data)
+          setData(response.data.flashSaleProduct)
           setLink(response.data._id)
         } catch (error) {
           if (error) {
@@ -54,18 +50,10 @@ export default function AddBrand3() {
       console.log(err)
     }
   }
-
+  console.log(data)
   useEffect(() => {
-    getSinglecoupon()
-
-    //for ClipboardJS
-    if (clipboardRef.current) {
-      const clipboard = new ClipboardJS(clipboardRef.current)
-      clipboard.on('success', handleCopySuccess)
-
-      return () => clipboard.destroy()
-    }
-  }, [link])
+    getFlashSaleProduct()
+  }, [])
 
   const handleCopySuccess = () => {
     setIsCopied(true)
@@ -76,10 +64,16 @@ export default function AddBrand3() {
 
   return (
     <>
+      <ToastContainer />
+
       <Grid>
-        <Typography>name: {coupon.name}</Typography>
-        <Typography>expiry:{coupon.expiry}</Typography>
-        <Typography>discount:{coupon.discount}%</Typography>
+        <Typography>Product Name: {data.productId?.title}</Typography>
+        <Typography>isSpecialProduct:{data.productId?.isSpecial ? 'True' : 'False'}</Typography>
+        <Typography>isFeaturedProduct:{data.productId?.isFeatured ? 'True' : 'False'}</Typography>
+        <Typography>Discount:{data.discountPercentage}%</Typography>
+        <Typography>Quantity:{data.quantity}</Typography>
+        <Typography>Start time:{data.startTime}</Typography>
+        <Typography>End time:{data.endTime}</Typography>
       </Grid>
     </>
   )

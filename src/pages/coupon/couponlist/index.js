@@ -24,6 +24,7 @@ import React, { useState, useEffect } from 'react'
 import { LinearProgress } from '@mui/material'
 
 import { deleteProductCoupon, updateProductCoupon } from 'src/features/coupon/couponService'
+import Cookies from 'js-cookie'
 
 const notify2 = message => toast.error(message)
 const notify = message => toast.success(message)
@@ -61,11 +62,7 @@ const style = {
   p: 4
 }
 
-const gettoken =
-  typeof window !== 'undefined' && localStorage.getItem('useDetails')
-    ? JSON.parse(localStorage.getItem('useDetails'))
-    : null
-const token = gettoken?.state.userDetails.token
+const token = Cookies.get('token')
 
 const TableCustomized = () => {
   const [page, setPage] = useState(0)

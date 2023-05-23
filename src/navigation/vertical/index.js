@@ -16,6 +16,7 @@ import Eyedropper from 'mdi-material-ui/Eyedropper'
 import Tag from 'mdi-material-ui/Tag'
 import TruckDelivery from 'mdi-material-ui/TruckDelivery'
 import AccountMultiple from 'mdi-material-ui/AccountMultiple'
+import BoltIcon from '@mui/icons-material/Bolt'
 
 const navigation = () => {
   return [
@@ -101,6 +102,16 @@ const navigation = () => {
       title: 'Color list',
       path: '/color/colorlist',
       icon: Eyedropper
+    },
+    {
+      title: 'Add To Flash Sale',
+      path: '/flashsale/addtoflashsale',
+      icon: BoltIcon
+    },
+    {
+      title: 'Flash Sale List',
+      path: '/flashsale/flashsalelist',
+      icon: BoltIcon
     },
 
     {

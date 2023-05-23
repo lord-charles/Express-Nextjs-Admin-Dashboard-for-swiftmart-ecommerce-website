@@ -19,19 +19,16 @@ import { addProduct } from 'src/features/product/productService'
 import { useEffect } from 'react'
 import Image from 'next/image'
 
+import Cookies from 'js-cookie'
+
+const token = Cookies.get('token')
+
 export default function AddressForm({ handleNext, disableNext }) {
   const notify = () => toast.error('fill all fields to proceed!')
 
   const { userDetails } = useStore()
   const { setProductId } = useStore2()
 
-  useEffect(() => {
-    setToken(userDetails.token)
-    setAdminEmail(userDetails.email)
-  }, [userDetails.email, userDetails.token])
-
-  const [token, setToken] = useState('')
-  const [adminEmail, setAdminEmail] = useState('')
   const [btnActive, setBtnActive] = useState(true)
 
   const [title, settitle] = useState('')
@@ -40,6 +37,7 @@ export default function AddressForm({ handleNext, disableNext }) {
   const [price, setprice] = useState('')
   const [countInStock, setcountInStock] = useState(10)
   const [isFeatured, setisFeatured] = useState(false)
+  const [isSpecial, setisSpecial] = useState(false)
   const [quantity, setquantity] = useState(1)
   const [imageUrl1, setImageUrl1] = useState('')
   const [imageUrl2, setImageUrl2] = useState('')
@@ -55,6 +53,7 @@ export default function AddressForm({ handleNext, disableNext }) {
     price,
     countInStock,
     isFeatured,
+    isSpecial,
     quantity,
     images: [
       { public_id: imageId, url: imageUrl1 },
@@ -73,8 +72,7 @@ export default function AddressForm({ handleNext, disableNext }) {
       price.length < 1 ||
       isFeatured.length < 1 ||
       quantity.length < 1 ||
-      imageUrl1.length < 1 ||
-      imageId.length < 1
+      imageUrl1.length < 1
     ) {
       return notify(), setBtnActive(true)
     }
@@ -121,8 +119,8 @@ export default function AddressForm({ handleNext, disableNext }) {
     setImageUrl4(event.target.value)
   }
 
-  const handleImageIdChange = event => {
-    setImageId(event.target.value)
+  const handleIsSpecial = event => {
+    setisSpecial(event.target.value)
   }
 
   // upload section
@@ -280,13 +278,13 @@ export default function AddressForm({ handleNext, disableNext }) {
         <Grid item xs={12} sm={6}>
           <TextField
             required
-            id='image id'
-            name='image id'
-            label='image id'
+            id='isSpecial'
+            name='isSpecial'
+            label='isSpecial'
             fullWidth
             variant='standard'
-            value={imageId}
-            onChange={handleImageIdChange}
+            value={isSpecial}
+            onChange={handleIsSpecial}
           />
         </Grid>
 

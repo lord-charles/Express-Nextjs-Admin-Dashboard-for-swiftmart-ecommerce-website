@@ -13,6 +13,7 @@ import { toast, Toaster } from 'react-hot-toast'
 import { createCategory } from 'src/features/pcategory/pcategoryService'
 import { createColor } from 'src/features/color/colorService'
 import useStore3 from 'utils/Store3'
+import Cookies from 'js-cookie'
 
 const notify = message => toast.error(message)
 
@@ -44,7 +45,7 @@ export default function PaymentForm({ handleNext }) {
     ? JSON.parse(localStorage.getItem('productId'))
     : null
 
-  const token = localStorage.getItem('useDetails') ? JSON.parse(localStorage.getItem('useDetails')) : null
+  const token = Cookies.get('token')
 
   const getsuccessFromLocalStorage = localStorage.getItem('successRate')
     ? JSON.parse(localStorage.getItem('successRate'))
@@ -79,31 +80,22 @@ export default function PaymentForm({ handleNext }) {
   console.log(categoryData, brandData, colorData)
 
   const handleNextPage = () => {
-    if (successRateBrand && successRateCategory && successRateColor && successRateCategory2) {
+    if (successRateBrand || successRateCategory || successRateColor || successRateCategory2) {
       setTimeout(() => {
         handleNext()
       }, 14000)
-    } else {
-      notify('Something went wrong, please try again. if error persists, contact developer')
     }
   }
 
   const handleAddProductDetails = () => {
     setBtnActive(false)
 
-    createCategory(
-      categoryData,
-      token.state.userDetails.token,
-      setSuccessRateCategory,
-      setSuccessRateCategory2,
-      handleNextPage,
-      setBtnActive
-    ),
+    createCategory(categoryData, token, setSuccessRateCategory, setSuccessRateCategory2, handleNextPage, setBtnActive),
       setTimeout(() => {
-        createBrand(brandData, token.state.userDetails.token, setSuccessRateBrand)
+        createBrand(brandData, token, setSuccessRateBrand)
       }, 4000)
     setTimeout(() => {
-      createColor(colorData, token.state.userDetails.token, setSuccessRateColor, setSuccessRateColor2)
+      createColor(colorData, token, setSuccessRateColor, setSuccessRateColor2)
     }, 8000)
   }
 

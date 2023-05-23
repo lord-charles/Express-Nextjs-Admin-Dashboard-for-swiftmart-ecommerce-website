@@ -8,21 +8,16 @@ import Box from '@mui/material/Box'
 import Autocomplete from '@mui/material/Autocomplete'
 import { useState } from 'react'
 import { Button } from '@mui/material'
-import { createBrand } from 'src/features/brand/brandService'
 import { toast, Toaster } from 'react-hot-toast'
 import { createCategory } from 'src/features/pcategory/pcategoryService'
-import { createColor } from 'src/features/color/colorService'
 import useStore3 from 'utils/Store3'
 import useStore2 from 'utils/Store2'
 
-import { useEffect } from 'react'
+import Cookies from 'js-cookie'
 
 const notify = message => toast.error(message)
 
-const token =
-  typeof window !== 'undefined' && localStorage.getItem('useDetails')
-    ? JSON.parse(localStorage.getItem('useDetails'))
-    : null
+const token = Cookies.get('token')
 
 export default function Addcategory2({ handleNext }) {
   const getsuccessFromLocalStorage =
@@ -31,14 +26,7 @@ export default function Addcategory2({ handleNext }) {
       : null
   const successRateCategory = getsuccessFromLocalStorage?.state
 
-  const {
-    setSuccessRateCategory,
-    setSuccessRateBrand,
-    setSuccessRateColor,
-    setSuccessRateCategory2,
-    setSuccessRateBrand2,
-    setSuccessRateColor2
-  } = useStore3()
+  const { setSuccessRateCategory, setSuccessRateCategory2 } = useStore3()
   const { setProductId } = useStore2()
 
   const [btnActive, setBtnActive] = useState(true)
@@ -69,14 +57,7 @@ export default function Addcategory2({ handleNext }) {
   const handleAddProductDetails = () => {
     setBtnActive(false)
     setProductId(productId)
-    createCategory(
-      categoryData,
-      token.state.userDetails.token,
-      setSuccessRateCategory,
-      setSuccessRateCategory2,
-      handleNextPage,
-      setBtnActive
-    )
+    createCategory(categoryData, token, setSuccessRateCategory, setSuccessRateCategory2, handleNextPage, setBtnActive)
   }
 
   return (

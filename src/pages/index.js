@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
 import useStore from '../../utils/Store'
+import Cookies from 'js-cookie'
 
 // ** Next Imports
 
@@ -43,6 +44,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
+import { base_url } from 'utils/baseUrl'
 
 // ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -128,14 +130,15 @@ const Index = () => {
 
         const myPromise = new Promise(async (resolve, reject) => {
           try {
-            const response = await axios.post('https://ecommerce2023api.onrender.com/user/login', user)
+            const response = await axios.post(`${base_url}user/login`, user)
             if (response.status === 200) {
               resolve()
 
               const details = {
                 email: response.data.user,
-                token: response.data.token
+                token: response.data.toke
               }
+              Cookies.set('token', response.data.token, { expires: 1 })
 
               addDetails(details)
               setDisable(false)

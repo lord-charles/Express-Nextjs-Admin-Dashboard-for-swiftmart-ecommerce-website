@@ -37,15 +37,12 @@ import { Button } from '@mui/material'
 import TablePagination from '@mui/material/TablePagination'
 
 import { updateProduct, deleteProduct } from 'src/features/product/productService'
+import Cookies from 'js-cookie'
 
 const notify2 = message => toast.error(message)
 const notify = message => toast.success(message)
 
-const gettoken =
-  typeof window !== 'undefined' && localStorage.getItem('useDetails')
-    ? JSON.parse(localStorage.getItem('useDetails'))
-    : null
-const token = gettoken?.state.userDetails.token
+const token = Cookies.get('token')
 
 const TableCollapsible = () => {
   const style = {
@@ -77,6 +74,7 @@ const TableCollapsible = () => {
   const [richDescription, setrichDescription] = useState('')
   const [price, setprice] = useState('')
   const [isFeatured, setisFeatured] = useState(false)
+  const [isSpecial, setSpecial] = useState(false)
   const [quantity, setquantity] = useState(1)
   const [imageUrl1, setImageUrl1] = useState('')
   const [imageUrl2, setImageUrl2] = useState('')
@@ -102,6 +100,7 @@ const TableCollapsible = () => {
     richDescription,
     price,
     isFeatured,
+    isSpecial,
     quantity,
     images: [
       { public_id: imageId, url: imageUrl1 },
@@ -129,6 +128,10 @@ const TableCollapsible = () => {
 
   const handleisFeaturedChange = event => {
     setisFeatured(event.target.value)
+  }
+
+  const handleisSpecialChange = event => {
+    setSpecial(event.target.value)
   }
 
   const handlequantityChange = event => {
@@ -162,13 +165,13 @@ const TableCollapsible = () => {
         headers: config(token).headers
       })
       console.log(token)
-      const response = await api.get('products/', config(token))
+      const response = await api.get('products?limit=10000', config(token))
       setproducts(response.data.data)
       if (response.data.err == 'Not Authorized token expired, Please Login again') {
         notify2(response.data.err)
       }
 
-      // console.log(response.data)
+      console.log(response.data)
 
       return response.data
     } catch (err) {
@@ -194,6 +197,7 @@ const TableCollapsible = () => {
           setrichDescription(response.data.richDescription)
           setprice(response.data.price)
           setisFeatured(response.data.isFeatured ? true : false)
+          setSpecial(response.data.isSpecial ? true : false)
           setquantity(response.data.quantity)
           response.data.images.map((image, index) => {
             switch (index) {
@@ -310,6 +314,7 @@ const TableCollapsible = () => {
           <TableCell align='right'>{row.price}</TableCell>
           <TableCell align='right'>{row.countInStock}</TableCell>
           <TableCell align='right'>{row.isFeatured ? 'true' : 'false'}</TableCell>
+          <TableCell align='right'>{row.isSpecial ? 'true' : 'false'}</TableCell>
           <TableCell align='right'>{row.sold}</TableCell>
           <TableCell align='right'>{row.totalrating}</TableCell>
           <TableCell align='right'>
@@ -536,31 +541,7 @@ const TableCollapsible = () => {
           aria-describedby='modal-modal-description'
         >
           <>
-            <div className='relative top-[50px] md:top-[200px] z-[999]  ml-[20px] flex justify-center'>
-              <h2>ID:</h2>
-              <button ref={clipboardRef} data-clipboard-text={link} className='flex'>
-                {link}{' '}
-                {isCopied ? (
-                  'Copied!'
-                ) : (
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    strokeWidth={1.5}
-                    stroke='currentColor'
-                    className='w-6 h-6 text-purple-500'
-                  >
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      d='M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5A3.375 3.375 0 006.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0015 2.25h-1.5a2.251 2.251 0 00-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 00-9-9z'
-                    />
-                  </svg>
-                )}
-              </button>
-            </div>
-            <Box sx={style} className='text-center'>
+            <Box sx={style} className='text-center text-[14px]'>
               <Toaster />
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -581,6 +562,30 @@ const TableCollapsible = () => {
               <Typography id='modal-modal-title' variant='h4' component='h4'>
                 Update Product details
               </Typography>
+              <div className='flex items-center space-x-3 pt-[10px]'>
+                <h2>ID:</h2>
+                <button ref={clipboardRef} data-clipboard-text={link} className='flex'>
+                  {link}{' '}
+                  {isCopied ? (
+                    'Copied!'
+                  ) : (
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      strokeWidth={1.5}
+                      stroke='currentColor'
+                      className='w-6 h-6 text-purple-500'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        d='M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5A3.375 3.375 0 006.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0015 2.25h-1.5a2.251 2.251 0 00-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 00-9-9z'
+                      />
+                    </svg>
+                  )}
+                </button>
+              </div>
 
               <Box className='mt-[40px]'>
                 <Grid container spacing={3}>
@@ -617,6 +622,7 @@ const TableCollapsible = () => {
                       fullWidth
                       multiline
                       minRows={2}
+                      maxRows={4}
                       label='description'
                       placeholder='small description...'
                       sx={{ '& .MuiOutlinedInput-root': { alignItems: 'baseline' } }}
@@ -662,6 +668,7 @@ const TableCollapsible = () => {
                       variant='standard'
                       value={quantity}
                       onChange={handlequantityChange}
+                      style={{ fontSize: '10px' }}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -674,6 +681,18 @@ const TableCollapsible = () => {
                       variant='standard'
                       value={isFeatured}
                       onChange={handleisFeaturedChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id='special'
+                      name='special'
+                      label='special'
+                      fullWidth
+                      variant='standard'
+                      value={isSpecial}
+                      onChange={handleisSpecialChange}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -774,6 +793,7 @@ const TableCollapsible = () => {
               <TableCell align='right'>price(ksh)</TableCell>
               <TableCell align='right'>count</TableCell>
               <TableCell align='right'>IsFeatured</TableCell>
+              <TableCell align='right'>isSpecial</TableCell>
               <TableCell align='right'>sold</TableCell>
               <TableCell align='right'>Total rating</TableCell>
               <TableCell align='right'>edit</TableCell>

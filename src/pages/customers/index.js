@@ -40,14 +40,11 @@ import BadgeIcon from '@mui/icons-material/Badge'
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
+import Cookies from 'js-cookie'
 
 // import Button from '@mui/material/Button'
 
-const gettoken =
-  typeof window !== 'undefined' && localStorage.getItem('useDetails')
-    ? JSON.parse(localStorage.getItem('useDetails'))
-    : null
-const token = gettoken?.state.userDetails.token
+const token = Cookies.get('token')
 
 const columns = [
   { id: 'firstname', label: 'Name', minWidth: 170 },

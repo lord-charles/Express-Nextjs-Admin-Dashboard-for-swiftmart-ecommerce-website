@@ -42,6 +42,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
+import { base_url } from 'utils/baseUrl'
 
 // ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -159,7 +160,7 @@ const RegisterPage = () => {
 
         const myPromise = new Promise(async (resolve, reject) => {
           try {
-            const response = await axios.post('https://ecommerce2023api.onrender.com/user/register', user)
+            const response = await axios.post(`${base_url}user/register`, user)
             if (response.status === 200) {
               resolve()
 

@@ -39,6 +39,7 @@ const style = {
 import React, { useState, useEffect } from 'react'
 import { LinearProgress } from '@mui/material'
 import { deleteProductCategory, updateProductCategory } from 'src/features/pcategory/pcategoryService'
+import Cookies from 'js-cookie'
 
 const notify2 = message => toast.error(message)
 const notify = message => toast.success(message)
@@ -64,15 +65,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   }
 }))
 
-const createData = (name, calories, fat, carbs, protein) => {
-  return { name, calories, fat, carbs, protein }
-}
-
-const gettoken =
-  typeof window !== 'undefined' && localStorage.getItem('useDetails')
-    ? JSON.parse(localStorage.getItem('useDetails'))
-    : null
-const token = gettoken?.state.userDetails.token
+const token = Cookies.get('token')
 
 const TableCustomized = () => {
   const [page, setPage] = useState(0)

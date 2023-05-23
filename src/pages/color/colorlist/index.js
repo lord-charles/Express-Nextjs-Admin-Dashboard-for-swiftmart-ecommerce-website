@@ -25,6 +25,7 @@ import React, { useState, useEffect } from 'react'
 import { LinearProgress } from '@mui/material'
 import Autocomplete from '@mui/material/Autocomplete'
 import { deleteProductColor, updateProductColor } from 'src/features/color/colorService'
+import Cookies from 'js-cookie'
 
 const notify2 = message => toast.error(message)
 const notify = message => toast.success(message)
@@ -62,11 +63,7 @@ const style = {
   p: 4
 }
 
-const gettoken =
-  typeof window !== 'undefined' && localStorage.getItem('useDetails')
-    ? JSON.parse(localStorage.getItem('useDetails'))
-    : null
-const token = gettoken?.state.userDetails.token
+const token = Cookies.get('token')
 
 const TableCustomized = () => {
   const colorsList = [

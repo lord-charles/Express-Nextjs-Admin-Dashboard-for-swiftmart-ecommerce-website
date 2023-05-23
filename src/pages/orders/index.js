@@ -33,16 +33,13 @@ import ChevronDown from 'mdi-material-ui/ChevronDown'
 import { useEffect } from 'react'
 import Chip from '@mui/material/Chip'
 import { Button } from '@mui/material'
+import Image from 'next/image'
+import Cookies from 'js-cookie'
 
 const notify2 = message => toast.error(message)
 const notify = message => toast.success(message)
 
-const gettoken =
-  typeof window !== 'undefined' && localStorage.getItem('useDetails')
-    ? JSON.parse(localStorage.getItem('useDetails'))
-    : null
-
-const token = gettoken?.state.userDetails.token
+const token = Cookies.get('token')
 
 const style = {
   position: 'absolute',
@@ -65,6 +62,7 @@ const TableCollapsible = () => {
   const [status, setStatus] = useState('Processing')
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [orderActive, setOrderActive] = useState(false)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -88,13 +86,13 @@ const TableCollapsible = () => {
       console.log(token)
       const response = await api.get('user/orders/all/', config(token))
       setOrders(response.data)
+      response.status == 200 && response.data.length < 1 ? setOrderActive(true) : null
       if (response.data.err == 'Not Authorized token expired, Please Login again') {
         notify2(response.data.err)
+        setOrderActive(true)
       }
 
-      // console.log(response)
-
-      return response.data
+      console.log(response)
     } catch (err) {
       console.log(err)
     }
@@ -273,7 +271,24 @@ const TableCollapsible = () => {
             </TableRow>
           </TableHead>
 
-          {orders.length > 0 ? (
+          {orderActive ? (
+            <div
+              className='
+            absolute transform lg:translate-x-[100%] md:translate-x-[50%] xxs:translate-x-[0%]   transform-y-[-50%]
+            '
+            >
+              <div className='flex items-center relative'>
+                <Image
+                  src={'/images/pages/404.png'}
+                  width={400}
+                  height={350}
+                  alt='404'
+                  className='object-contain w-[200px] h-[600px] bg-red-0'
+                />
+                <h3 className='absolute right-10 text-[14px] text-black'>no data found!</h3>
+              </div>
+            </div>
+          ) : orders.length > 0 ? (
             <TableBody>
               {orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
                 <Fragment key={index}>
