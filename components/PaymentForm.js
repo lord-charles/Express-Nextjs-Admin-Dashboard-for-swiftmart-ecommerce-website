@@ -30,6 +30,7 @@ export default function PaymentForm({ handleNext }) {
   const [category, setCategory] = useState('')
   const [subcategory, setSubcategory] = useState('')
   const [quantity, setquantity] = useState(1)
+  const [icon, setIcon] = useState('')
 
   //brand
   const [brand, setBrand] = useState('')
@@ -60,7 +61,7 @@ export default function PaymentForm({ handleNext }) {
     title2: subcategory?.subcategory,
     quantity: quantity,
     productId: productId,
-    icon: ''
+    icon: icon
   }
 
   const brandData = {
@@ -83,7 +84,7 @@ export default function PaymentForm({ handleNext }) {
     if (successRateBrand || successRateCategory || successRateColor || successRateCategory2) {
       setTimeout(() => {
         handleNext()
-      }, 14000)
+      }, 10000)
     }
   }
 
@@ -168,6 +169,19 @@ export default function PaymentForm({ handleNext }) {
             variant='standard'
             value={quantity}
             onChange={event => setquantity(event.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12} md={8}>
+          <TextField
+            required
+            id='category icon'
+            label='Category icon(url)'
+            helperText='valid url'
+            fullWidth
+            type='text'
+            variant='standard'
+            value={icon}
+            onChange={event => setIcon(event.target.value)}
           />
         </Grid>
 
