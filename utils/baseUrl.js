@@ -1,1 +1,1 @@
-export const base_url = 'https://cute-blue-seagull-vest.cyclic.app/'
+export const base_url = 'https://alive-deer-costume.cyclic.app/'
