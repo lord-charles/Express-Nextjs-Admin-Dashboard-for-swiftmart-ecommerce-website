@@ -148,7 +148,7 @@ const TableCustomized = () => {
       })
       const response = await api.get(`flashSale/all/`, config(token))
 
-      // console.log(response)
+      console.log(response.data)
 
       if (response.data.success) {
         setFlash(response.data.flashSaleProducts)
@@ -759,7 +759,7 @@ const TableCustomized = () => {
               {flash.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(flash => (
                 <StyledTableRow key={flash._id}>
                   <StyledTableCell component='th' scope='row'>
-                    {flash.productId.title}
+                    {flash.productId?.title}
                   </StyledTableCell>
                   <StyledTableCell align='right'>{flash._id}</StyledTableCell>
                   <StyledTableCell align='right'>{flash.discountPercentage}</StyledTableCell>

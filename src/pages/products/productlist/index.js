@@ -164,14 +164,11 @@ const TableCollapsible = () => {
         baseURL: base_url,
         headers: config(token).headers
       })
-      console.log(token)
       const response = await api.get('products?limit=10000', config(token))
       setproducts(response.data.data)
       if (response.data.err == 'Not Authorized token expired, Please Login again') {
         notify2(response.data.err)
       }
-
-      console.log(response.data)
 
       return response.data
     } catch (err) {
@@ -188,18 +185,19 @@ const TableCollapsible = () => {
       const myPromise = new Promise(async (resolve, reject) => {
         try {
           const response = await api.get(`products/${id}/`)
+
           if (response.status === 200) {
             resolve()
           }
-          setSingleProduct(response.data)
-          settitle(response.data.title)
-          setdescription(response.data.description)
-          setrichDescription(response.data.richDescription)
-          setprice(response.data.price)
-          setisFeatured(response.data.isFeatured ? true : false)
-          setSpecial(response.data.isSpecial ? true : false)
-          setquantity(response.data.quantity)
-          response.data.images.map((image, index) => {
+          setSingleProduct(response.data.findProduct)
+          settitle(response.data.findProduct.title)
+          setdescription(response.data.findProduct.description)
+          setrichDescription(response.data.findProduct.richDescription)
+          setprice(response.data.findProduct.price)
+          setisFeatured(response.data.findProduct.isFeatured ? true : false)
+          setSpecial(response.data.findProduct.isSpecial ? true : false)
+          setquantity(response.data.findProduct.quantity)
+          response.data.findProduct.images.map((image, index) => {
             switch (index) {
               case 0:
                 setImageUrl1(image.url)
@@ -219,7 +217,7 @@ const TableCollapsible = () => {
             setImageId(image.public_id)
           })
 
-          setLink(response.data._id)
+          setLink(response.data.findProduct._id)
         } catch (error) {
           if (error) {
             reject()
@@ -238,8 +236,6 @@ const TableCollapsible = () => {
       console.log(err)
     }
   }
-
-  // console.log(singleProduct)
 
   useEffect(() => {
     //for ClipboardJS
@@ -282,7 +278,6 @@ const TableCollapsible = () => {
     deleteProduct(id, token, setBtnActive, getProducts, handleClose)
   }
 
-  console.log(products)
   useEffect(() => {
     getProducts()
   }, [])
